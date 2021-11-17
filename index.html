@@ -11,22 +11,90 @@
 </head>
 
 <style>
+    html {
+        cursor: url(images/cursor.png) 0 0, auto;
+    }
+
     body {
         text-align: center;
-        font-family: 'Courier New', Courier, monospace;
+        /* font-family; */
         font-size: 40px;
         text-shadow: 4px 4px 4px #aaa;
         color: goldenrod;
         background-image: url("https://media3.giphy.com/media/FlodpfQUBSp20/200.gif");
     }
 
-    .coin {
-        top: -60px;
-        width: 60px;
+    .money {
         position: absolute;
     }
 
+    #coin-1c {
+        width: 2vw;
+        top: -2vw;
+    }
+
+    #coin-5c {
+        width: 4vw;
+        top: -4vw;
+    }
+
+    #coin-10c {
+        width: 6vw;
+        top: -6vw;
+    }
+
+    #coin-20c {
+        width: 8vw;
+        top: -8vw;
+    }
+
+    #coin-50c {
+        width: 10vw;
+        top: -10vw;
+    }
+
+    #coin-1d {
+        width: 12vw;
+        top: -12vw;
+    }
+
+    #note-2d {
+        width: 14vw;
+        top: -14vw;
+    }
+
+    #note-5d {
+        width: 16vw;
+        top: -16vw;
+    }
+
+    #note-10d {
+        width: 18vw;
+        top: -18vw;
+    }
+
+    #note-50d {
+        width: 20vw;
+        top: -20vw;
+    }
+
+    #note-100d {
+        width: 22vw;
+        top: -22vw;
+    }
+
+    #note-1000d {
+        width: 24vw;
+        top: -24vw;
+    }
+
     #greeting {
+        margin: 0;
+    }
+
+    #score {
+        position: absolute;
+        bottom: 0;
         margin: 0;
     }
 </style>
@@ -35,17 +103,26 @@
     <h1 id="greeting"></h1>
     <h1 id="day-message">
     </h1>
-    <h2 id="time">
-    </h2>
     <h1 id="kaching"></h1>
-    <img class="coin" id="10c" src="images/10c.png">
-    <img class="coin" id="1c" src="images/1c.png">
+    <img class="money coin" id="coin-1c" val="0.01" src="images/1c.png">
+    <img class="money coin" id="coin-5c" val="0.05" src="images/5c.png">
+    <img class="money coin" id="coin-10c" val="0.1" src="images/10c.png">
+    <img class="money coin" id="coin-20c" val="0.2" src="images/20c.png">
+    <img class="money coin" id="coin-50c" val="0.5" src="images/50c.png">
+    <img class="money coin" id="coin-1d" val="1" src="images/1d.png">
+    <img class="money note" id="note-2d" val="2" src="images/2d.png">
+    <img class="money note" id="note-5d" val="5" src="images/5d.png">
+    <img class="money note" id="note-10d" val="10" src="images/10d.png">
+    <img class="money note" id="note-50d" val="50" src="images/50d.png">
+    <img class="money note" id="note-100d" val="100" src="images/100d.png">
+    <img class="money note" id="note-1000d" val="1000" src="images/1000d.png">
+    <p id="score">Piggybank: $0</p>
 </body>
 
 <script>
-
-    function drop_coin(id, d = 1000) {
-        $("#" + id).css("left", Math.random() * window.innerWidth - 60)
+    function drop(id, d = 1000) {
+        $("#" + id).show()
+        $("#" + id).css("left", Math.random() * (window.innerWidth - $("#" + id).width()))
         document.getElementById(id).animate([
             { transform: 'translate3D(0, 0, 0)' },
             { transform: `translate3D(0, ${window.innerHeight}px, 0)` }
@@ -54,22 +131,34 @@
             iterations: 1
         })
         var sound_interval = setInterval(() => {
-            var sound = new Audio("audio/coin.wav")
+            audio_file = "audio/coin.wav"
+            if ($("#" + id).hasClass("note")) {
+            }
+            var sound = new Audio(audio_file)
             sound.play()
             clearInterval(sound_interval)
         }, d)
     }
-
-
     let day_arr = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
     // let user_name = window.prompt("Enter your name")
     let user_name = "Ken"
     // let pay = window.prompt("how much kaching u got??")
-    let pay = 2000
+    let pay = 50000
     // let payday = window.prompt("when u get ur kaching??")
     let payday = 10
-
     let kaching = 0
+    let score = 0
+    $(".money").mouseover(e => {
+        audio_file = "audio/piggybank.mp3"
+        if ($(e.target).hasClass("note")) audio_file = "audio/notes.mp3"
+        var sound = new Audio(audio_file)
+        sound.play()
+        val = parseFloat($(e.target).attr("val"))
+        $(e.target).hide()
+        score += val
+        $("#score").text(`Piggybank: $${score.toFixed(2)}`)
+    })
+
     window.setInterval(() => {
         const d = new Date()
         let day = d.getDay()
@@ -80,25 +169,34 @@
         $("#greeting").text(`Good ${greet}, ${user_name}.`)
         // $("#day-message").text(`It is currently a ${day_arr[day]}.`)
         // $("#time").text(`${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}`)
-        kaching_old = kaching
+        let kaching_old = kaching
         kaching = (pay_rate * (((days_since_payday - 1) * 9.5 * 60 * 60) + ((d.getHours() * 60 * 60 + d.getMinutes() * 60 + d.getSeconds()) - (8 * 60 * 60 + 30 * 60)))).toFixed(2)
-        // console.log(kaching.toFixed(2))
         $("#kaching").text(`$${kaching}`)
         if (kaching.slice(-1) != kaching_old.slice(-1)) {
-            drop_coin("1c", 2000)
-
-
+            drop("coin-1c")
+            if (parseInt(kaching.slice(-1)) % 5 == 0) drop("coin-5c", 1200)
         }
         if (kaching_old.slice(-2, -1) != kaching.slice(-2, -1)) {
-            drop_coin("10c")
+            drop("coin-10c", 1400)
+            if (parseInt(kaching.slice(-2, -1)) % 2 == 0) drop("coin-20c", 1600)
+            if (parseInt(kaching.slice(-2, -1)) % 5 == 0) drop("coin-50c", 1800)
         }
-        if (kaching_old.slice(-3, -2) != kaching.slice(-3, -2)) {
-            drop_coin("1d")
+        if (kaching_old.slice(-4, -3) != kaching.slice(-4, -3)) {
+            drop("coin-1d", 2000)
+            if (parseInt(kaching.slice(-4, -3)) % 2 == 0) drop("note-2d", 2200)
+            if (parseInt(kaching.slice(-4, -3)) % 5 == 0) drop("note-5d", 2400)
+        }
+        if (kaching_old.slice(-5, -4) != kaching.slice(-5, -4)) {
+            drop("note-10d", 2600)
+            if (parseInt(kaching.slice(-5, -4)) % 5 == 0) drop("note-50d", 2600)
+        }
+        if (kaching_old.slice(-6, -5) != kaching.slice(-6, -5)) {
+            drop("note-100d", 2800)
+        }
+        if (kaching_old.slice(-7, -6) != kaching.slice(-7, -6)) {
+            drop("note-1000d", 3000)
         }
     }, 1000)
-
-
-
 </script>
 
 </html>
