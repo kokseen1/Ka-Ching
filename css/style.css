@@ -1,0 +1,87 @@
+html {
+    cursor: url(images/cursor.png) 0 0, auto;
+}
+
+body {
+    text-align: center;
+    /* font-family; */
+    font-size: 40px;
+    text-shadow: 4px 4px 4px #aaa;
+    color: goldenrod;
+    background-image: url("https://media3.giphy.com/media/FlodpfQUBSp20/200.gif");
+    user-select: none;
+}
+
+.money {
+    position: absolute;
+}
+
+#coin-1c {
+    width: 2vw;
+    top: -2vw;
+}
+
+#coin-5c {
+    width: 4vw;
+    top: -4vw;
+}
+
+#coin-10c {
+    width: 6vw;
+    top: -6vw;
+}
+
+#coin-20c {
+    width: 8vw;
+    top: -8vw;
+}
+
+#coin-50c {
+    width: 10vw;
+    top: -10vw;
+}
+
+#coin-1d {
+    width: 12vw;
+    top: -12vw;
+}
+
+#note-2d {
+    width: 14vw;
+    top: -14vw;
+}
+
+#note-5d {
+    width: 16vw;
+    top: -16vw;
+}
+
+#note-10d {
+    width: 18vw;
+    top: -18vw;
+}
+
+#note-50d {
+    width: 20vw;
+    top: -20vw;
+}
+
+#note-100d {
+    width: 22vw;
+    top: -22vw;
+}
+
+#note-1000d {
+    width: 24vw;
+    top: -24vw;
+}
+
+#greeting {
+    margin: 0;
+}
+
+#score {
+    position: absolute;
+    bottom: 0;
+    margin: 0;
+}
