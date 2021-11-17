@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ka-Ching!</title>
+    <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+
+<style>
+    body {
+        text-align: center;
+        font-family: 'Courier New', Courier, monospace;
+        font-size: 40px;
+        text-shadow: 4px 4px 4px #aaa;
+        color: goldenrod;
+        background-image: url("https://media3.giphy.com/media/FlodpfQUBSp20/200.gif");
+    }
+
+    .coin {
+        top: -60px;
+        width: 60px;
+        position: absolute;
+    }
+
+    #greeting {
+        margin: 0;
+    }
+</style>
+
+<body>
+    <h1 id="greeting"></h1>
+    <h1 id="day-message">
+    </h1>
+    <h2 id="time">
+    </h2>
+    <h1 id="kaching"></h1>
+    <img class="coin" id="10c" src="images/10c.png">
+    <img class="coin" id="1c" src="images/1c.png">
+</body>
+
+<script>
+
+    function drop_coin(id, d = 1000) {
+        $("#" + id).css("left", Math.random() * window.innerWidth - 60)
+        document.getElementById(id).animate([
+            { transform: 'translate3D(0, 0, 0)' },
+            { transform: `translate3D(0, ${window.innerHeight}px, 0)` }
+        ], {
+            duration: d,
+            iterations: 1
+        })
+        var sound_interval = setInterval(() => {
+            var sound = new Audio("audio/coin.wav")
+            sound.play()
+            clearInterval(sound_interval)
+        }, d)
+    }
+
+
+    let day_arr = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+    // let user_name = window.prompt("Enter your name")
+    let user_name = "Ken"
+    // let pay = window.prompt("how much kaching u got??")
+    let pay = 2000
+    // let payday = window.prompt("when u get ur kaching??")
+    let payday = 10
+
+    let kaching = 0
+    window.setInterval(() => {
+        const d = new Date()
+        let day = d.getDay()
+        let day_of_month = d.getDate()
+        let days_since_payday = day_of_month - payday
+        let greet = d.getHours() > 12 ? "afternoon" : "morning"
+        let pay_rate = pay / (22 * 9.5 * 60 * 60)
+        $("#greeting").text(`Good ${greet}, ${user_name}.`)
+        // $("#day-message").text(`It is currently a ${day_arr[day]}.`)
+        // $("#time").text(`${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}`)
+        kaching_old = kaching
+        kaching = (pay_rate * (((days_since_payday - 1) * 9.5 * 60 * 60) + ((d.getHours() * 60 * 60 + d.getMinutes() * 60 + d.getSeconds()) - (8 * 60 * 60 + 30 * 60)))).toFixed(2)
+        // console.log(kaching.toFixed(2))
+        $("#kaching").text(`$${kaching}`)
+        if (kaching.slice(-1) != kaching_old.slice(-1)) {
+            drop_coin("1c", 2000)
+
+
+        }
+        if (kaching_old.slice(-2, -1) != kaching.slice(-2, -1)) {
+            drop_coin("10c")
+        }
+        if (kaching_old.slice(-3, -2) != kaching.slice(-3, -2)) {
+            drop_coin("1d")
+        }
+    }, 1000)
+
+
+
+</script>
+
+</html>
