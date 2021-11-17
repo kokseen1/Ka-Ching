@@ -18,8 +18,7 @@ function drop(id, d = 1000) {
     }, d);
 }
 
-function main()
-{
+function main() {
     let username = localStorage.username;
     let pay = parseInt(localStorage.pay);
     let payday = parseInt(localStorage.payday);
@@ -41,9 +40,11 @@ function main()
         const d = new Date();
         let day_of_month = d.getDate();
         let days_since_payday = day_of_month - payday;
-        let greet = d.getHours() >= 12 ? "afternoon" : "morning";
+        let greet = "Good morning";
+        if (d.getHours() >= 12) greet = "Good afternoon";
+        if (d.getHours() >= 18) greet = "お疲れ様でした..なぜまだここにいる？帰てください!";
         let pay_rate = pay / (22 * 9.5 * 60 * 60);
-        $("#greeting").text(`Good ${greet}, ${username}.`);
+        $("#greeting").text(`${greet}, ${username}.`);
         // $("#day-message").text(`It is currently a ${day_arr[day]}.`);
         // $("#time").text(`${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}`);
         let kaching_old = kaching.toString();
@@ -98,7 +99,7 @@ particularsForm.addEventListener('submit', e => {
     main();
 });
 
-if(localStorage.username && localStorage.pay && localStorage.payday) {
+if (localStorage.username && localStorage.pay && localStorage.payday) {
     // Hide particulars form overlay
     const overlay = document.querySelector('#particulars-overlay');
     overlay.style.display = 'none';
