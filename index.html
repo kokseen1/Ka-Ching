@@ -12,8 +12,34 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 
-
 <body>
+
+    <div id="particulars-overlay" class="overlay">
+        <form id="particulars-form">
+            <h2>Particulars</h2>
+
+            <table>
+                <thead></thead>
+                <tbody>
+                    <tr>
+                        <td>Name:</td>
+                        <td><input type="text" name="name"></td>
+                    </tr>
+                    <tr>
+                        <td>How much kaching u got?</td>
+                        <td><input type="number" name="pay"></td>
+                    </tr>
+                    <tr>
+                        <td>When u get ur pay?</td>
+                        <td><input type="number" name="payday" min="1" max="31"></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <input type="submit" value="Confirm" class="btn">
+        </form>
+    </div>
+
     <h1 id="greeting"></h1>
     <h1 id="day-message">
     </h1>
