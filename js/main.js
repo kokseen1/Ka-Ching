@@ -42,7 +42,7 @@ function main() {
         let days_since_payday = day_of_month - payday;
         let greet = "Good morning";
         if (d.getHours() >= 12) greet = "Good afternoon";
-        if (d.getHours() >= 18) greet = "お疲れ様でした..なぜまだここにいる？帰てください!";
+        if (d.getHours() >= 18) greet = "お疲れ様でした..なぜまだここにいる？帰ってください!";
         let pay_rate = pay / (22 * 9.5 * 60 * 60);
         $("#greeting").text(`${greet}, ${username}.`);
         // $("#day-message").text(`It is currently a ${day_arr[day]}.`);
