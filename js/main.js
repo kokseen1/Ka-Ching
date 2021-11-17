@@ -41,7 +41,8 @@ window.setInterval(() => {
     const d = new Date();
     let day_of_month = d.getDate();
     let days_since_payday = day_of_month - payday;
-    let greet = d.getHours() > 12 ? "afternoon" : "morning";
+    let greet = d.getHours() >= 12 ? "afternoon" : "morning";
+    console.log(d.getHours());
     let pay_rate = pay / (22 * 9.5 * 60 * 60);
     $("#greeting").text(`Good ${greet}, ${user_name}.`);
     // $("#day-message").text(`It is currently a ${day_arr[day]}.`);
