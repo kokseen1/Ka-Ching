@@ -23,7 +23,7 @@ function main() {
     let pay = parseInt(localStorage.pay);
     let payday = parseInt(localStorage.payday);
     let day_arr = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-    let kaching = 0;
+    let kaching;
     let score = 0;
     $(".money").mouseover(e => {
         audio_file = "audio/piggybank.mp3";
@@ -39,16 +39,22 @@ function main() {
     window.setInterval(() => {
         const d = new Date();
         let day_of_month = d.getDate();
-        let days_since_payday = day_of_month - payday;
+        let days_since_payday = (day_of_month - payday + 30) % 30;
         let greet = "Good morning";
         if (d.getHours() >= 12) greet = "Good afternoon";
-        if (d.getHours() >= 18) greet = "お疲れ様でした..なぜまだここにいる？帰ってください!";
+        if (d.getHours() >= 18 || d.getHours() <= 7) {
+            $("#greeting").html("お疲れ様でした..<br>なぜまだここにいる？<br>帰ってください!");
+            return;
+        }
         let pay_rate = pay / (22 * 9.5 * 60 * 60);
         $("#greeting").text(`${greet}, ${username}.`);
         // $("#day-message").text(`It is currently a ${day_arr[day]}.`);
         // $("#time").text(`${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}`);
-        let kaching_old = kaching.toString();
-        kaching = (pay_rate * (((days_since_payday - 1) * 9.5 * 60 * 60) + ((d.getHours() * 60 * 60 + d.getMinutes() * 60 + d.getSeconds()) - (8 * 60 * 60 + 30 * 60)))).toFixed(2);
+        let weekends = Math.floor(days_since_payday / 7);
+        console.log(weekends)
+        let kaching_old = kaching;
+        kaching = (pay_rate * (((days_since_payday - 1 - weekends * 2) * 9.5 * 60 * 60) + ((d.getHours() * 60 * 60 + d.getMinutes() * 60 + d.getSeconds()) - (8 * 60 * 60 + 30 * 60)))).toFixed(2);
+        if (!kaching_old) kaching_old = kaching;
         $("#kaching").text(`$${kaching}`);
         console.log(kaching_old);
         if (kaching.slice(-1) != kaching_old.slice(-1)) {
