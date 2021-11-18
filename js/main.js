@@ -41,7 +41,8 @@ function main() {
         let day_of_month = d.getDate();
         let days_since_payday = (day_of_month - payday + 30) % 30;
         let greet = "Good morning";
-        if (d.getHours() >= 12) greet = "Good afternoon";
+        if (d.getHours() >= 12) greet = "Lunchtime!";
+        if (d.getHours() >= 13) greet = "Good afternoon";
         if (d.getHours() >= 18 || d.getHours() <= 7) {
             $("#greeting").html("お疲れ様でした..<br>なぜまだここにいる？<br>帰ってください!");
             return;
@@ -52,6 +53,7 @@ function main() {
         // $("#time").text(`${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}`);
         let weekends = Math.floor(days_since_payday / 7);
         let kaching_old = kaching;
+        console.log(((d.getHours() * 60 * 60 + d.getMinutes() * 60 + d.getSeconds()) - (8 * 60 * 60 + 30 * 60)))
         kaching = (pay_rate * (((days_since_payday - weekends * 2) * 9.5 * 60 * 60) + ((d.getHours() * 60 * 60 + d.getMinutes() * 60 + d.getSeconds()) - (8 * 60 * 60 + 30 * 60)))).toFixed(2);
         if (!kaching_old) kaching_old = kaching;
         $("#kaching").text(`$${kaching}`);
