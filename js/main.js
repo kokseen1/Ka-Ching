@@ -51,12 +51,10 @@ function main() {
         // $("#day-message").text(`It is currently a ${day_arr[day]}.`);
         // $("#time").text(`${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}`);
         let weekends = Math.floor(days_since_payday / 7);
-        console.log(weekends)
         let kaching_old = kaching;
-        kaching = (pay_rate * (((days_since_payday - 1 - weekends * 2) * 9.5 * 60 * 60) + ((d.getHours() * 60 * 60 + d.getMinutes() * 60 + d.getSeconds()) - (8 * 60 * 60 + 30 * 60)))).toFixed(2);
+        kaching = (pay_rate * (((days_since_payday - weekends * 2) * 9.5 * 60 * 60) + ((d.getHours() * 60 * 60 + d.getMinutes() * 60 + d.getSeconds()) - (8 * 60 * 60 + 30 * 60)))).toFixed(2);
         if (!kaching_old) kaching_old = kaching;
         $("#kaching").text(`$${kaching}`);
-        console.log(kaching_old);
         if (kaching.slice(-1) != kaching_old.slice(-1)) {
             drop("coin-1c");
             if (parseInt(kaching.slice(-1)) % 5 == 0) drop("coin-5c", 1200);
